@@ -1,0 +1,1 @@
+{"c":["app/layout","app/character/add/page","webpack"],"r":[],"m":["(app-pages-browser)/./envs.ts","(app-pages-browser)/./lib/apiCharacters.ts","(app-pages-browser)/./lib/clients/axios.ts","(app-pages-browser)/./node_modules/redaxios/dist/redaxios.module.js"]}

@@ -1,50 +1,24 @@
 "use client";
 
+import Character from "@/components/character";
+import NotFound from "@/components/notFound";
 import { getCharacterById } from "@/lib/apiCharacters";
-import { TCharacterResult } from "@/shared/types/character";
-import { useSuspenseQuery } from "@tanstack/react-query";
-import Image from "next/image";
+import { useQuery } from "@tanstack/react-query";
 import { useParams } from "next/navigation";
 
-const Character = () => {
-  const id = Number(useParams<{ id: string }>().id);
+const CharacterID = () => {
+  const id = Number(useParams().id);
+  console.log(id);
 
-  const { data: character } = useSuspenseQuery<TCharacterResult>({
-    queryKey: ["character"],
+  const { data: character, error } = useQuery({
+    queryKey: ["character", id],
     queryFn: () => getCharacterById(id),
+    retry: 0,
   });
 
-  return (
-    <div className="flex flex-row my-6">
-      <div className="w-[10vw] flex-col p-3 bg-[#e0e0e077]">
-        <Image
-          className="mb-1"
-          src={character.image}
-          alt="Image"
-          width={100}
-          height={100}
-        />
-        <div>{character.name}</div>
-      </div>
-      <div className="bg-[#e0e0e077] w-full ml-6 box-border p-6">
-        <div>
-          <b>ID</b>: {character.id}
-        </div>
-        <div>
-          <b>Status:</b> {character.status}
-        </div>
-        <div>
-          <b>Species:</b> {character.species}
-        </div>
-        <div>
-          <b>Created:</b> {character.created}
-        </div>
-        <div>
-          <b>Gender:</b> {character.gender}
-        </div>
-      </div>
-    </div>
-  );
+  if (error || !character) return <NotFound />;
+
+  return <Character character={character} />;
 };
 
-export default Character;
+export default CharacterID;

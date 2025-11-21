@@ -76,6 +76,7 @@
   :root, :host {
     --color-blue-500: oklch(62.3% 0.214 259.815);
     --color-blue-600: oklch(54.6% 0.245 262.881);
+    --color-blue-800: oklch(42.4% 0.199 265.638);
     --color-neutral-600: oklch(43.9% 0 0);
     --color-white: #fff;
     --spacing: 0.25rem;
@@ -244,6 +245,10 @@
   }
 }
 @layer utilities {
+  .\@container\/card-header {
+    container-type: inline-size;
+    container-name: card-header;
+  }
   .sr-only {
     position: absolute;
     width: 1px;
@@ -258,11 +263,23 @@
   .relative {
     position: relative;
   }
+  .col-start-2 {
+    grid-column-start: 2;
+  }
+  .row-span-2 {
+    grid-row: span 2 / span 2;
+  }
+  .row-start-1 {
+    grid-row-start: 1;
+  }
   .mx-auto {
     margin-inline: auto;
   }
   .my-3 {
     margin-block: calc(var(--spacing) * 3);
+  }
+  .my-5 {
+    margin-block: calc(var(--spacing) * 5);
   }
   .my-6 {
     margin-block: calc(var(--spacing) * 6);
@@ -275,6 +292,9 @@
   }
   .mb-1 {
     margin-bottom: calc(var(--spacing) * 1);
+  }
+  .mb-2 {
+    margin-bottom: calc(var(--spacing) * 2);
   }
   .mb-4 {
     margin-bottom: calc(var(--spacing) * 4);
@@ -290,6 +310,9 @@
   }
   .flex {
     display: flex;
+  }
+  .grid {
+    display: grid;
   }
   .hidden {
     display: none;
@@ -355,6 +378,9 @@
   .w-\[10vw\] {
     width: 10vw;
   }
+  .w-\[40\%\] {
+    width: 40%;
+  }
   .w-\[95\%\] {
     width: 95%;
   }
@@ -382,6 +408,12 @@
   .cursor-pointer {
     cursor: pointer;
   }
+  .auto-rows-min {
+    grid-auto-rows: min-content;
+  }
+  .grid-rows-\[auto_auto\] {
+    grid-template-rows: auto auto;
+  }
   .flex-col {
     flex-direction: column;
   }
@@ -390,6 +422,9 @@
   }
   .items-center {
     align-items: center;
+  }
+  .items-start {
+    align-items: flex-start;
   }
   .justify-between {
     justify-content: space-between;
@@ -406,6 +441,15 @@
   .gap-2 {
     gap: calc(var(--spacing) * 2);
   }
+  .gap-6 {
+    gap: calc(var(--spacing) * 6);
+  }
+  .self-start {
+    align-self: flex-start;
+  }
+  .justify-self-end {
+    justify-self: flex-end;
+  }
   .overflow-x-auto {
     overflow-x: auto;
   }
@@ -414,6 +458,9 @@
   }
   .rounded-md {
     border-radius: calc(var(--radius) - 2px);
+  }
+  .rounded-xl {
+    border-radius: calc(var(--radius) + 4px);
   }
   .border {
     border-style: var(--tw-border-style);
@@ -435,6 +482,12 @@
   }
   .bg-background {
     background-color: var(--background);
+  }
+  .bg-blue-800 {
+    background-color: var(--color-blue-800);
+  }
+  .bg-card {
+    background-color: var(--card);
   }
   .bg-destructive {
     background-color: var(--destructive);
@@ -484,6 +537,9 @@
   .py-2 {
     padding-block: calc(var(--spacing) * 2);
   }
+  .py-6 {
+    padding-block: calc(var(--spacing) * 6);
+  }
   .text-center {
     text-align: center;
   }
@@ -511,6 +567,10 @@
   .text-\[2\.5vw\] {
     font-size: 2.5vw;
   }
+  .leading-none {
+    --tw-leading: 1;
+    line-height: 1;
+  }
   .font-bold {
     --tw-font-weight: var(--font-weight-bold);
     font-weight: var(--font-weight-bold);
@@ -531,6 +591,9 @@
   }
   .text-blue-600 {
     color: var(--color-blue-600);
+  }
+  .text-card-foreground {
+    color: var(--card-foreground);
   }
   .text-foreground {
     color: var(--foreground);
@@ -559,6 +622,10 @@
   .antialiased {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+  }
+  .shadow-sm {
+    --tw-shadow: 0 1px 3px 0 var(--tw-shadow-color, rgb(0 0 0 / 0.1)), 0 1px 2px -1px var(--tw-shadow-color, rgb(0 0 0 / 0.1));
+    box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
   }
   .shadow-xs {
     --tw-shadow: 0 1px 2px 0 var(--tw-shadow-color, rgb(0 0 0 / 0.05));
@@ -749,6 +816,11 @@
       opacity: 50%;
     }
   }
+  .has-data-\[slot\=card-action\]\:grid-cols-\[1fr_auto\] {
+    &:has(*[data-slot="card-action"]) {
+      grid-template-columns: 1fr auto;
+    }
+  }
   .has-\[\>svg\]\:px-2\.5 {
     &:has(>svg) {
       padding-inline: calc(var(--spacing) * 2.5);
@@ -899,6 +971,16 @@
   .\[\&\:has\(\[role\=checkbox\]\)\]\:pr-0 {
     &:has([role=checkbox]) {
       padding-right: calc(var(--spacing) * 0);
+    }
+  }
+  .\[\.border-b\]\:pb-6 {
+    &:is(.border-b) {
+      padding-bottom: calc(var(--spacing) * 6);
+    }
+  }
+  .\[\.border-t\]\:pt-6 {
+    &:is(.border-t) {
+      padding-top: calc(var(--spacing) * 6);
     }
   }
   .\[\&\>tr\]\:last\:border-b-0 {
@@ -1079,6 +1161,10 @@
   inherits: false;
   initial-value: solid;
 }
+@property --tw-leading {
+  syntax: "*";
+  inherits: false;
+}
 @property --tw-font-weight {
   syntax: "*";
   inherits: false;
@@ -1157,6 +1243,7 @@
   @supports ((-webkit-hyphens: none) and (not (margin-trim: inline))) or ((-moz-orient: inline) and (not (color:rgb(from red r g b)))) {
     *, ::before, ::after, ::backdrop {
       --tw-border-style: solid;
+      --tw-leading: initial;
       --tw-font-weight: initial;
       --tw-shadow: 0 0 #0000;
       --tw-shadow-color: initial;

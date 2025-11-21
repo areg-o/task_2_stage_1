@@ -1,13 +1,13 @@
 "use client";
 
-import useUrl from "@/shared/hooks/useUrl";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 const Logo = () => {
-  const { updateParams } = useUrl();
+  const router = useRouter();
 
   const handleClick = () => {
-    updateParams({ page: 1, name: "" });
+    router.push("/");
   };
 
   return (

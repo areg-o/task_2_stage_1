@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const schemaCharacterResult = z.object({
+const schemaCharacterResult = z.object({
   id: z.number(),
   name: z.string(),
   status: z.string(),
@@ -20,7 +20,7 @@ export const schemaCharacterResult = z.object({
   created: z.string(),
 });
 
-export const schemaCharacter = z.object({
+const schemaCharacter = z.object({
   info: z.object({
     count: z.number(),
     pages: z.number(),
@@ -30,5 +30,14 @@ export const schemaCharacter = z.object({
   results: z.array(schemaCharacterResult),
 });
 
+const schemaAddCharacter = z.object({
+  image: z.string(),
+  name: z.string(),
+  gender: z.string(),
+  species: z.string(),
+  status: z.string(),
+});
+
 export type TCharacterResult = z.infer<typeof schemaCharacterResult>;
 export type TCharacters = z.infer<typeof schemaCharacter>;
+export type TAddCharacter = z.infer<typeof schemaAddCharacter>;

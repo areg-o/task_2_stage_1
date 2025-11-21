@@ -1,5 +1,6 @@
 import api from "@/lib/clients/axios";
 import { TCharacterResult, TCharacters } from "@/shared/types/character";
+import { notFound } from "next/navigation";
 
 export const getCharacters = async (page?: number, name?: string) => {
   try {
@@ -22,6 +23,6 @@ export const getCharacterById = async (id: number) => {
     const response = await api.get<TCharacterResult>(`/api/character/${id}`);
     return response.data;
   } catch (error) {
-    return null;
+    notFound();
   }
 };

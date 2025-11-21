@@ -11,8 +11,8 @@ const Header = () => {
       </div>
       <div className="flex flex-row items-center">
         <Search />
-        <Link href="/users/add">
-          <Button className="cursor-pointer">Add</Button>
+        <Link href="/character/add">
+          <Button className="cursor-pointer bg-blue-800">Add character</Button>
         </Link>
       </div>
     </header>
