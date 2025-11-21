@@ -37,8 +37,17 @@ export function CharactersTable() {
     retry: 0,
   });
 
-  const characters = data?.results || [];
+  if (error) notFound();
+
+  const charactersAPI = data?.results || [];
   const pagesCount = data?.info.pages || 1;
+
+  const localCharactersJSON =
+    page === pagesCount ? window.localStorage.getItem("characters") : undefined;
+
+  const characters = localCharactersJSON
+    ? charactersAPI.concat(JSON.parse(localCharactersJSON))
+    : charactersAPI;
 
   const paginationLinks = useMemo(() => {
     const links: JSX.Element[] = [];
@@ -68,8 +77,6 @@ export function CharactersTable() {
   const handleCharacterCard = (charID: number) => {
     router.push(`/character/${charID}`);
   };
-
-  if (error) notFound();
 
   return (
     <>
@@ -102,7 +109,7 @@ export function CharactersTable() {
                 <TableCell>{char.id}</TableCell>
                 <TableCell>
                   <Image
-                    src={char.image}
+                    src={char.image || "/avatar.png"}
                     alt={char.name}
                     width={40}
                     height={40}

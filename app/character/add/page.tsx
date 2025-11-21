@@ -16,11 +16,14 @@ import { useEffect, useRef, useState } from "react";
 const getLastId = async () => {
   const res = await fetch(`${baseURL}/api/character/?page=1`);
   const data = await res.json();
+
   return data.info.count;
 };
 
 export default function Add() {
-  const [id, setId] = useState("");
+  const [id, setId] = useState(0);
+
+  // localStorage.clear();
 
   const formRef = useRef<HTMLFormElement>(null);
 
@@ -38,14 +41,33 @@ export default function Add() {
 
     const formData = new FormData(formRef.current);
     const character = {
-      id: id?.toString(),
+      id,
       ...Object.fromEntries(formData.entries()),
     };
 
-    window.localStorage.setItem(
-      `character[${character.id}]`,
-      JSON.stringify(character)
-    );
+    const localCharactersJSON = window.localStorage.getItem("characters");
+
+    if (localCharactersJSON) {
+      const localCharacters = JSON.parse(localCharactersJSON);
+
+      const localId = localCharacters.length;
+      character.id += localId;
+
+      localCharacters.push(character);
+      window.localStorage.setItem(
+        "characters",
+        JSON.stringify(localCharacters)
+      );
+    } else {
+      const localCaharacters = [];
+      localCaharacters.push(character);
+      window.localStorage.setItem(
+        "characters",
+        JSON.stringify(localCaharacters)
+      );
+    }
+
+    console.log(window.localStorage.getItem("characters"));
   };
 
   return (
